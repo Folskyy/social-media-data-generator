@@ -34,6 +34,7 @@ for i in range(entrada):
 # para representar a localização espacial de dados geográficos.
 gdf = gpd.GeoDataFrame(data, geometry=gpd.points_from_xy(data['latitude'], data['longitude'], crs="EPSG:4326"))
 #%%
+# visualização
 gdf.plot()
 gdf.head()
 # %%
