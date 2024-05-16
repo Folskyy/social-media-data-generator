@@ -9,7 +9,7 @@ argv = argparse.ArgumentParser()
 argv.add_argument('points_number', type=int, help="Number of data points to plot.")
 args = argv.parse_args()
 
-# Shapefile download
+# Brazil shapefile download
 url = 'https://geodata.ucdavis.edu/gadm/gadm4.1/shp/gadm41_BRA_shp.zip'
 br_shapefile = gpd.read_file(url)
 # br_shapefile = gpd.read_file('files/BRA_shp.zip')
