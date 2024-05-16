@@ -5,5 +5,4 @@
 ## To-do
     - Consider the country limitations before add the point
         - Maybe consider states and cities
-    - It's possible use shapefile.explore() with the points?
     
