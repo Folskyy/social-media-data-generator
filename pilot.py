@@ -10,9 +10,9 @@ argv.add_argument('points_number', type=int, help="Number of data points to plot
 args = argv.parse_args()
 
 # Brazil shapefile download
-url = 'https://geodata.ucdavis.edu/gadm/gadm4.1/shp/gadm41_BRA_shp.zip'
-br_shapefile = gpd.read_file(url)
-# br_shapefile = gpd.read_file('files/BRA_shp.zip')
+# url = 'https://geodata.ucdavis.edu/gadm/gadm4.1/shp/gadm41_BRA_shp.zip'
+# br_shapefile = gpd.read_file(url)
+br_shapefile = gpd.read_file('files/BRA_shp.zip')
 
 # Dataframe to save latitude and longitude data
 data = pd.DataFrame(columns=['latitude', 'longitude'])
@@ -38,3 +38,14 @@ ax = br_shapefile.plot(color='white', edgecolor='black')
 # Points plot on top of the shapefile
 gdf.plot(ax=ax, color='red')
 plt.show()
+
+# Iteractive map
+m = br_shapefile.explore()
+gdf.explore(m=m, color='red')
+
+# Save all the explore() layers ploted before
+m.save('map.html')
+
+import webbrowser
+# open the saved html file on the browser
+webbrowser.open('map.html')
