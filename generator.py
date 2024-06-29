@@ -7,11 +7,12 @@ import datetime
 
 argv = argparse.ArgumentParser()
 argv.add_argument('points_number', type=int, help="Number of data points to plot.")
-argv.add_argument('temporal_component', type=int, help="Timestamp")
-
+argv.add_argument('temporal_component', type=int, help="Time update interval")
+argv.add_argument('start_timestamp', type=int, help="Time update interval")
+argv.add_argument('end_timestamp', type=int, help="Time update interval")
 argv.add_argument('shapefile', type=str, help="directory or link to a ShapeFile")
+
 ########################################################### have to be passed by argument too
-temporal_comp = 10 # minutes
 start_time = datetime.datetime(2024, 5, 28, 15, 43, 55)
 end_time = datetime.datetime(2024, 5, 28, 18, 23, 50)
 ###########################################################
@@ -19,6 +20,7 @@ args = argv.parse_args()
 
 # variables definition
 points_num = args.points_number
+temporal_comp = args.temporal_component
 shapefile = gpd.read_file(args.shapefile)
 
 latitude, longitude, times = insert_points(shapefile, points_num, start_time, end_time)
