@@ -7,12 +7,11 @@ import argparse
 # Input argument
 argv = argparse.ArgumentParser()
 argv.add_argument('points_number', type=int, help="Number of data points to plot.")
+argv.add_argument('shapefile', type=int, help="directory or link to a ShapeFile")
 args = argv.parse_args()
 
-# Brazil shapefile download
-# url = 'https://geodata.ucdavis.edu/gadm/gadm4.1/shp/gadm41_BRA_shp.zip'
-# br_shapefile = gpd.read_file(url)
-br_shapefile = gpd.read_file('files/BRA_shp.zip')
+br_shapefile = gpd.read_file(args.shapefile)
+br_shapefile = gpd.read_file('files/BRA_shp.zip') # receber por parâmetro
 
 # Dataframe to save latitude and longitude data
 data = pd.DataFrame(columns=['latitude', 'longitude'])
