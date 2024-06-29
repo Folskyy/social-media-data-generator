@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import argparse
 from utilities import insert_points
-import datetime
+from datetime import datetime
 
 argv = argparse.ArgumentParser()
 argv.add_argument('points_number', type=int, help="Number of data points to plot.")
@@ -12,18 +12,19 @@ argv.add_argument('start_timestamp', type=int, help="Time update interval")
 argv.add_argument('end_timestamp', type=int, help="Time update interval")
 argv.add_argument('shapefile', type=str, help="directory or link to a ShapeFile")
 
-########################################################### have to be passed by argument too
-start_time = datetime.datetime(2024, 5, 28, 15, 43, 55)
-end_time = datetime.datetime(2024, 5, 28, 18, 23, 50)
-###########################################################
 args = argv.parse_args()
 
 # variables definition
 points_num = args.points_number
 temporal_comp = args.temporal_component
 shapefile = gpd.read_file(args.shapefile)
+start_time = datetime.fromtimestamp(args.start_timestamp)
+end_time = datetime.fromtimestamp(args.end_timestamp)
 
-latitude, longitude, times = insert_points(shapefile, points_num, start_time, end_time)
+latitude, longitude, times = insert_points(shapefile,
+                                           points_num,
+                                           start_time,
+                                           end_time)
 
 data = pd.DataFrame({'latitude': latitude,
                      'longitude': longitude,
@@ -31,7 +32,9 @@ data = pd.DataFrame({'latitude': latitude,
                      })
 
 # Transform the dataframe saved into shapely points objects
-geometry = gpd.points_from_xy(data['longitude'], data['latitude'], crs="EPSG:4326")
+geometry = gpd.points_from_xy(data['longitude'],
+                              data['latitude'],
+                              crs="EPSG:4326")
 gdf = gpd.GeoDataFrame(data, geometry=geometry)
 
 # Graph colors setting up and Brazil shapefile plot
