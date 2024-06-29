@@ -5,6 +5,4 @@
 ## To-do
     - Consider the country limitations before add the point
         - Maybe consider states and cities
-    - It's possible use shapefile.explore() with the points?
-    - fix the points per time plot distribution 
-    - fix the timestamp to
+    - Find a better way to verify if the point is in the shapefile
