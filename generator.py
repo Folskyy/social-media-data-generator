@@ -1,9 +1,9 @@
-import geopandas as gpd
-import pandas as pd
-import matplotlib.pyplot as plt
 import argparse
-from utilities import insert_points
+import pandas as pd
+import geopandas as gpd
 from datetime import datetime
+import matplotlib.pyplot as plt
+from utilities import insert_points_by_time
 
 argv = argparse.ArgumentParser()
 argv.add_argument('points_number', type=int, help="Number of data points to plot.")
@@ -21,25 +21,18 @@ shapefile = gpd.read_file(args.shapefile)
 start_time = datetime.fromtimestamp(args.start_timestamp)
 end_time = datetime.fromtimestamp(args.end_timestamp)
 
-latitude, longitude, times = insert_points(shapefile,
-                                           points_num,
-                                           start_time,
-                                           end_time)
+data = pd.DataFrame(insert_points_by_time(shapefile,
+                                          points_num,
+                                          start_time,
+                                          end_time,
+                                          temporal_comp))
 
-data = pd.DataFrame({'latitude': latitude,
-                     'longitude': longitude,
-                     'times': times
-                     })
-
-# Transform the dataframe saved into shapely points objects
 geometry = gpd.points_from_xy(data['longitude'],
                               data['latitude'],
                               crs="EPSG:4326")
 gdf = gpd.GeoDataFrame(data, geometry=geometry)
 
-# Graph colors setting up and Brazil shapefile plot
 ax = shapefile.plot(color='white', edgecolor='black')
-# Points plot on top of the shapefile
 gdf.plot(ax=ax, color='red')
 plt.show()
 
