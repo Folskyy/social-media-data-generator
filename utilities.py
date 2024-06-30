@@ -21,8 +21,9 @@ def insert_points_by_time(shapefile, point_num, start_time, end_time, temporal_c
                                                    actual_time,
                                                    end_time)
         
-        sys.stdout.write(f'\n{actual_epoch}/{epochs} epochs...\n')
         actual_epoch += 1
+        sys.stdout.write(f'\n{actual_epoch}/{epochs} epochs...\n')
+
         actual_time += delta
         for i, j, k in zip(latitude, longitude, times):
             data.loc[len(data)] = [i, j, k]
@@ -42,13 +43,13 @@ def insert_points(shapefile, point_num, start_time, end_time):
         random_point = Point(longitude, latitude)
         
         if shapefile.contains(random_point).any():
-            sys.stdout.write(f'\r{len(latitude_points)}/{point_num} points founded.')
-            
             latitude_points.append(latitude)
             longitude_points.append(longitude)
             
             time = np.random.uniform(start_time.timestamp(), end_time.timestamp())
             time = str(datetime.fromtimestamp(time))
             times.append(time)
+            
+            sys.stdout.write(f'\r{len(latitude_points)}/{point_num} points added.')
     
     return latitude_points, longitude_points, times
