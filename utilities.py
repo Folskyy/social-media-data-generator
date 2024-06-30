@@ -1,13 +1,17 @@
+import sys
 import pandas as pd
 import numpy as np
 from shapely import Point
 from datetime import datetime, timedelta
-import sys
 
 def insert_points_by_time(shapefile, point_num, start_time, end_time, temporal_comp):
+    """
+    Uses insert_points function to insert random points using a time componet who determines
+    a time interval between the points.
+    """
     actual_time = start_time
     delta = timedelta(minutes=temporal_comp)
-    epochs = int(((end_time - start_time).total_seconds() // 60) // temporal_comp)
+    epochs = int(((end_time - start_time).total_seconds() / 60) // temporal_comp)
     actual_epoch = 0
     data = pd.DataFrame(columns=['latitude','longitude','time'])
     
@@ -25,22 +29,26 @@ def insert_points_by_time(shapefile, point_num, start_time, end_time, temporal_c
     return data
 
 def insert_points(shapefile, point_num, start_time, end_time):
+    """
+    Locates random points that are inside the shapefile and save their coordinates with a random
+    time based on the interval of the times given.
+    """
     latitude_points, longitude_points, times = [], [], []
     total_bounds = shapefile.total_bounds
     
     while len(latitude_points) < point_num:
-        # 2 random numbers to represent longitude and latitude    
         longitude = np.random.uniform(total_bounds[0], total_bounds[2])
         latitude  = np.random.uniform(total_bounds[1], total_bounds[3])
         random_point = Point(longitude, latitude)
         
         if shapefile.contains(random_point).any():
-            sys.stdout.write(f'\r{len(latitude_points)}/{point_num} founded...')
+            sys.stdout.write(f'\r{len(latitude_points)}/{point_num} points founded.')
+            
             latitude_points.append(latitude)
             longitude_points.append(longitude)
+            
             time = np.random.uniform(start_time.timestamp(), end_time.timestamp())
             time = str(datetime.fromtimestamp(time))
             times.append(time)
     
-    sys.stdout.write(f'\r{len(latitude_points)}/{point_num} founded...')
     return latitude_points, longitude_points, times

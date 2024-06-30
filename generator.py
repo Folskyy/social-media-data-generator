@@ -14,7 +14,6 @@ argv.add_argument('shapefile', type=str, help="directory or link to a ShapeFile"
 
 args = argv.parse_args()
 
-# variables definition
 points_num = args.points_number
 temporal_comp = args.temporal_component
 shapefile = gpd.read_file(args.shapefile)
@@ -34,6 +33,7 @@ gdf = gpd.GeoDataFrame(data, geometry=geometry)
 
 ax = shapefile.plot(color='white', edgecolor='black')
 gdf.plot(ax=ax, color='red')
+plt.savefig('map.png')
 plt.show()
 
 # Iteractive map
