@@ -1,3 +1,4 @@
+from os import makedirs
 import sys
 import pandas as pd
 import numpy as np
@@ -53,3 +54,6 @@ def insert_points(shapefile, point_num, start_time, end_time):
             sys.stdout.write(f'\r{len(latitude_points)}/{point_num} points added.')
     
     return latitude_points, longitude_points, times
+
+def out_dir(output_path):
+        makedirs(output_path, exist_ok=True)
